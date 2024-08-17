@@ -44,19 +44,14 @@ class LeafNode(HTMLNode):
 class ParentNode(HTMLNode):
     def __init__(self, tag=None, children=None, props=None):
         super().__init__(tag = tag, value = None, children = children, props = props)
-    
     def to_html(self):
         if not self.tag:
             raise ValueError
-
         if not self.children:
             raise ValueError("NO CHILDREN")
-        
+       
         html_string = f"<{self.tag}>"
-
         for child in self.children:
-            
             html_string += child.to_html()
-        
         html_string += f"</{self.tag}>"
 

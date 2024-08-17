@@ -1,6 +1,6 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_basic_attributes(self):
@@ -37,6 +37,15 @@ class TestHTMLNode(unittest.TestCase):
         self.assertEqual(node.to_html(), '<p class="hello">Hello World!</p>')
 
 #  Parent node test
+    def test_no_val(self):
+        with self.assertRaises(ValueError):
+            ParentNode(tag = None, children=[]).to_html()
+    
+    def test_no_child(self):
+        with self.assertRaises(ValueError) as context:
+            ParentNode("p", []).to_html()
+        self.assertEqual(str(context.exception), "NO CHILDREN")
 
+#Main
 if __name__ == "__main__":
     unittest.main()
