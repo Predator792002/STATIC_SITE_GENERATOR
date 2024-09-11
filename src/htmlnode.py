@@ -39,6 +39,8 @@ class LeafNode(HTMLNode):
             return f'<{self.tag}{attributes}>{self.value}</{self.tag}>'
         else:
             return f'<{self.tag}>{self.value}</{self.tag}>'
+    
+    
         
 
 class ParentNode(HTMLNode):
@@ -49,9 +51,22 @@ class ParentNode(HTMLNode):
             raise ValueError
         if not self.children:
             raise ValueError("NO CHILDREN")
-       
-        html_string = f"<{self.tag}>"
+        
+        html_string = f"<{self.tag}"
+        
+        if self.props:
+            for key in self.props:
+                html_string = html_string + f' {key}="{self.props[key]}"'
+        
+        html_string = html_string + '>'
+        
         for child in self.children:
             html_string += child.to_html()
         html_string += f"</{self.tag}>"
+        
+        return html_string
+    
+
+def text_node_to_html_node():
+    pass
 
