@@ -24,6 +24,7 @@ class HTMLNode:
 class LeafNode(HTMLNode):
     def __init__(self, tag=None, value=None, props=None):
         super().__init__(tag=tag, value=value, children=None, props=props)
+        self.text = value
 
     
     def to_html(self):
@@ -67,6 +68,19 @@ class ParentNode(HTMLNode):
         return html_string
     
 
-def text_node_to_html_node():
-    pass
-
+def text_node_to_html_node(text_node):
+    match text_node.text_type:
+        case "text":
+            return LeafNode("", text_node.text)
+        case "bold":
+            return LeafNode("b", text_node.text)
+        case "italic":
+            return LeafNode("i", text_node.text)
+        case "code":
+            return LeafNode("code", text_node.text)
+        case "link":
+            return LeafNode(tag="a", value=text_node.text, props={"href": text_node.url})
+        case "image":
+            return LeafNode(tag="img", value="", props={"src": text_node.url, "alt": text_node.alt})
+        case _:
+            raise ValueError(f"Invalid text type: {text_node.text_type}")
