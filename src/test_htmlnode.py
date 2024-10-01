@@ -1,7 +1,7 @@
 import unittest
 
 from htmlnode import HTMLNode, LeafNode, ParentNode, text_node_to_html_node
-from textnode import TextNode
+from text_node import TextNode
 
 class TestHTMLNode(unittest.TestCase):
     def test_basic_attributes(self):
