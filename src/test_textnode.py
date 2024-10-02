@@ -2,8 +2,8 @@ import unittest
 
 from text_node import TextNode
 from split_inline import split_nodes_delimiter, extract_markdown_images, extract_markdown_links, split_nodes_images, split_nodes_link, text_to_textnodes
-
-
+from split_blocks import markdown_to_block,block_to_block_type
+ 
 
 
 class TestTextNode(unittest.TestCase):
@@ -208,7 +208,106 @@ class TestTextNode(unittest.TestCase):
     TextNode(" and a ", "text"),
     TextNode("link", "link", "https://boot.dev"),
 ])
-        
+    
 
+    def test_markdown_to_blocks(self):
+        markdown_text = """
+# Heading
+
+This is a paragraph.
+
+* List item one
+* List item two
+"""
+        expected_output = [
+        "# Heading",
+        "This is a paragraph.",
+        "* List item one\n* List item two"
+    ]
+        result = markdown_to_block(markdown_text)
+        self.assertEqual(result,expected_output)
+
+    def test_only_heading(self):
+        markdown_text = """
+    # Only Heading
+    """
+        expected_output = ["# Only Heading"]
+        result = markdown_to_block(markdown_text)
+        self.assertEqual(result, expected_output)
+
+    def test_multiple_blank_lines(self):
+        markdown_text = """
+    # Heading
+
+
+    This is a paragraph.
+
+
+    * List item
+
+    """
+        expected_output = [
+            "# Heading",
+            "This is a paragraph.",
+            "* List item"
+        ]
+        result = markdown_to_block(markdown_text)
+        self.assertEqual(result, expected_output)
+
+    def test_empty_string(self):
+        markdown_text = ""
+        expected_output = []
+        result = markdown_to_block(markdown_text)
+        self.assertEqual(result, expected_output)
+
+    def test_whitespace_blocks(self):
+        markdown_text = """
+
+        
+        """
+        expected_output = []
+        result = markdown_to_block(markdown_text)
+        self.assertEqual(result, expected_output)
+
+
+
+    
+    def test_blocktype_para(self):
+        block_text = "test"  
+        output = "Paragraph"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    def test_blocktype_heading(self):
+        block_text = "# test"  
+        output = "Heading"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    def test_blocktype_code(self):
+        block_text = "```\ntest\n```"  
+        output = "Code"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    def test_blocktype_quote(self):
+        block_text = "> test"  
+        output = "Quote"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    def test_blocktype_unolist(self):
+        block_text = "* test1\n* test2\n* test3"  
+        output = "Unordered list"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    def test_blocktype_olist(self):
+        block_text = "1. test1\n2. test2\n3. test3"  
+        output = "Ordered list"
+        result = block_to_block_type(block_text)
+        self.assertEqual(result, output)
+
+    
 if __name__ == "__main__":
     unittest.main()
