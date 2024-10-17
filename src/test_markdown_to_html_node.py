@@ -84,16 +84,6 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
         self.assertEqual(html_node.children[1].tag, 'p')
         self.assertEqual(html_node.children[1].children[0].text, 'This is another line.')
 
-def test_multiple_headings(self):
-    markdown = "# Heading 1\n## Heading 2\n### Heading 3"
-    html_node = markdown_to_html_node(markdown)
-    self.assertEqual(html_node.children[0].tag, 'h1')
-    self.assertEqual(html_node.children[0].children[0].text, 'Heading 1')
-    self.assertEqual(html_node.children[1].tag, 'h2')
-    self.assertEqual(html_node.children[1].children[0].text, 'Heading 2')
-    self.assertEqual(html_node.children[2].tag, 'h3')
-    self.assertEqual(html_node.children[2].children[0].text, 'Heading 3')
-
 
 
 if __name__ == '__main__':
