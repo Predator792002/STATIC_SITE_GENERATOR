@@ -1,6 +1,4 @@
 from text_node import TextNode
-import os
-import shutil
 
 import os
 import shutil
