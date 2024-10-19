@@ -1,4 +1,6 @@
 from text_node import TextNode
+import os
+import shutil
 
 def copy_directory(src, dst):
     # Ensure destination directory exists and is empty
