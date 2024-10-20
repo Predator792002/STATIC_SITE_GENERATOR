@@ -1,4 +1,4 @@
-from text_node import TextNode
+from src.text_node import TextNode
 import os
 import shutil
 
@@ -24,6 +24,7 @@ def copy_directory(src, dst):
 def main():
     node = TextNode("This is a text node", "bold", "https://www.boot.dev")
     print(node)
+    copy_directory('static', 'public')
 
 if __name__ == "__main__":
     main()
