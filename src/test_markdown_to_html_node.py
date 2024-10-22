@@ -94,7 +94,6 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
         with self.assertRaises(ValueError):
             extract_title(markdown)
 
-
     def test_header_not_first(self):
         markdown = "Some text\n# The Title\nMore text"
         heading = extract_title(markdown)
