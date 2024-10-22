@@ -1,5 +1,5 @@
 import unittest
-from Block_to_html import markdown_to_html_node
+from Block_to_html import markdown_to_html_node, extract_title
 
 class TestMarkdownToHTMLNode(unittest.TestCase):
     
@@ -84,7 +84,31 @@ class TestMarkdownToHTMLNode(unittest.TestCase):
         self.assertEqual(html_node.children[1].tag, 'p')
         self.assertEqual(html_node.children[1].children[0].text, 'This is another line.')
 
+    def test_heading(self):
+        markdown = "# Hello World.\n## this is test case"
+        heading = extract_title(markdown)
+        self.assertEqual(heading, "Hello World.")
 
+    def test_no_heading(self):
+        markdown = "This is a paragraph\nAnother paragraph"
+        with self.assertRaises(ValueError):
+            extract_title(markdown)
+
+
+    def test_header_not_first(self):
+        markdown = "Some text\n# The Title\nMore text"
+        heading = extract_title(markdown)
+        self.assertEqual(heading, "The Title")
+
+    def test_extra_spaces(self):
+        markdown = "#    Spaced    Title    "
+        heading = extract_title(markdown)
+        self.assertEqual(heading, "Spaced    Title")
+
+    def test_empty_title(self):
+        markdown = "#\nSome content"
+        heading = extract_title(markdown)
+        self.assertEqual(heading, "")
 
 if __name__ == '__main__':
     unittest.main()

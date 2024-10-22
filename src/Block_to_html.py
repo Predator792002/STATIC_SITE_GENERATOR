@@ -94,3 +94,8 @@ def create_list_items(block, ordered=False):
         
     return items
 
+def extract_title(markdown):
+    for line in markdown.split('\n'):
+        if line.startswith('#'):
+            return line.lstrip('#').strip()
+    raise ValueError("No Header found")
